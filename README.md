@@ -1,6 +1,15 @@
 # MetaphoneRU
-## Usage
+## JS usage
 Here is [demo](http://reaverart.github.io/MetaphoneRU/)
+
+## PHP usage
+```php
+require_once(metaphone.php");
+$meta = new MetaphoneRU();
+$proc = $meta->process("йогурт");
+print $proc."\n";
+
+```
 
 ## Russian adoptation of metaphone.
 Based on algorithm by Petr Kankovski

@@ -75,6 +75,20 @@ class MetaphoneRU {
     }
 
     function process($token) {
+	$ret = array();
+	foreach (explode(" ",$token) as $v){
+	    if ($v){
+		if (mb_strlen($v) > 4 && !preg_match("/^не/u",$v)){	//нИкогда -> никогд -> никакт || нЕкогда -> некогд -> никакт
+		    $ret[] = $this->replace($v);
+		}else{
+		    $ret[] = $v;
+		}
+	    }
+	}
+	return implode(" ",$ret);
+    }
+
+    function replace($token) {
             $token = $this->normalize($token);
             $token = $this->removeDuplicates($token);
             $token = $this->IOtoI($token);
@@ -88,18 +102,8 @@ class MetaphoneRU {
             $token = $this->GtoK($token);
             $token = $this->TStoC($token);
             $token = $this->removeDuplicates($token);
-
-            return $token;
+        return mb_strtolower($token);
     }
 }
-
-$meta = new MetaphoneRU();
-var_dump($meta->process("Арнольд")); //АРНАЛТ
-var_dump($meta->process("Длинный")); //ДЛИНАЙ
-var_dump($meta->process("йогурт")); //ИГУРТ
-var_dump($meta->process("снегопад")); //СНИГАПАТ
-var_dump($meta->process("город")); //ГАРАТ
-var_dump($meta->process("абырвалг")); //АБАРВАЛК
-var_dump($meta->process("незабываемый")); //НИЗАБАВАИМАЙ
 
 ?>
